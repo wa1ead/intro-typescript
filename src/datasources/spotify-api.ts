@@ -10,4 +10,9 @@ export class SpotifyAPI extends RESTDataSource {
     }>('browse/featured-playlists')
     return response?.playlists?.items ?? []
   }
+
+  getPlaylist(playlistId: string): Promise<Playlist> {
+    return this.get(`playlist/${playlistId}`)
+  }
 }
+
