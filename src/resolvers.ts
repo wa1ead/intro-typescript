@@ -1,8 +1,8 @@
 import { Resolvers } from "./types"
-const resolvers: Resolvers = {
+export const resolvers: Resolvers = {
   Query: {
     featuredPlaylists: (_, __, { dataSources }) => {
-      return dataSources.spotifyApi.getFeaturedPlaylists();
+      return dataSources.spotifyAPI.getFeaturedPlaylists();
     }
   }
 }
