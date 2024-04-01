@@ -7,5 +7,11 @@ export const resolvers: Resolvers = {
     playlist: (_, { id }, { dataSources }) => {
       return dataSources.spotifyAPI.getPlaylist(id)
     }
+  },
+  Playlist: {
+    tracks: ({ tracks }) => {
+      const { items = [] } = tracks
+      return items.map(({ track }) => track)
+    }
   }
 }
