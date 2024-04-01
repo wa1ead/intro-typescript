@@ -8,8 +8,9 @@ const config: CodegenConfig = {
       config: {
         contextType: './context#DataSourceContext',
         mappers: {
-          playlist: './models#PlaylistModel',
-          track: './models#TrackModel'
+          Playlist: './models#PlaylistModel',
+          Track: './models#TrackModel',
+          AddItemsToPlaylistPayload: './models#AddItemsToPlaylistPayloadModel'
         }
       }
     },

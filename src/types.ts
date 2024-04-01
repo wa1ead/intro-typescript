@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { PlaylistModel, TrackModel } from './models';
+import { PlaylistModel, TrackModel, AddItemsToPlaylistPayloadModel } from './models';
 import { DataSourceContext } from './context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -16,6 +16,36 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+};
+
+export type AddItemsToPlaylistInput = {
+  /** The ID of the playlist. */
+  playlistId: Scalars['ID']['input'];
+  /** A comma-separated list of Spotify URIs to add. */
+  uris: Array<Scalars['String']['input']>;
+};
+
+export type AddItemsToPlaylistPayload = {
+  __typename?: 'AddItemsToPlaylistPayload';
+  /** Similar to HTTP status code, represents the status of the mutation */
+  code: Scalars['Int']['output'];
+  /** Human-readable message for the UI */
+  message: Scalars['String']['output'];
+  /** The playlist that contains the newly added items */
+  playlist?: Maybe<Playlist>;
+  /** Indicates whether the mutation was successful */
+  success: Scalars['Boolean']['output'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  /** Add one or more items to a user's playlist. */
+  AddItemsToPlaylist: AddItemsToPlaylistPayload;
+};
+
+
+export type MutationAddItemsToPlaylistArgs = {
+  input: AddItemsToPlaylistInput;
 };
 
 /** A curated collection of tracks designed for a specific activity or mood. */
@@ -129,24 +159,42 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AddItemsToPlaylistInput: AddItemsToPlaylistInput;
+  AddItemsToPlaylistPayload: ResolverTypeWrapper<AddItemsToPlaylistPayloadModel>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  Playlist: ResolverTypeWrapper<Playlist>;
+  Mutation: ResolverTypeWrapper<{}>;
+  Playlist: ResolverTypeWrapper<PlaylistModel>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Track: ResolverTypeWrapper<Track>;
+  Track: ResolverTypeWrapper<TrackModel>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AddItemsToPlaylistInput: AddItemsToPlaylistInput;
+  AddItemsToPlaylistPayload: AddItemsToPlaylistPayloadModel;
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
-  Playlist: Playlist;
+  Mutation: {};
+  Playlist: PlaylistModel;
   Query: {};
   String: Scalars['String']['output'];
-  Track: Track;
+  Track: TrackModel;
+};
+
+export type AddItemsToPlaylistPayloadResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['AddItemsToPlaylistPayload'] = ResolversParentTypes['AddItemsToPlaylistPayload']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  playlist?: Resolver<Maybe<ResolversTypes['Playlist']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  AddItemsToPlaylist?: Resolver<ResolversTypes['AddItemsToPlaylistPayload'], ParentType, ContextType, RequireFields<MutationAddItemsToPlaylistArgs, 'input'>>;
 };
 
 export type PlaylistResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Playlist'] = ResolversParentTypes['Playlist']> = {
@@ -172,6 +220,8 @@ export type TrackResolvers<ContextType = DataSourceContext, ParentType extends R
 };
 
 export type Resolvers<ContextType = DataSourceContext> = {
+  AddItemsToPlaylistPayload?: AddItemsToPlaylistPayloadResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   Playlist?: PlaylistResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Track?: TrackResolvers<ContextType>;
