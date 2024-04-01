@@ -16,3 +16,8 @@ export type TrackModel = {
   explicit: boolean;
   uri: string;
 }
+
+export type SnapshotOrError = {
+  snapshot_id?: string;
+  error?: string;
+}
