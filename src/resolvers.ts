@@ -10,10 +10,10 @@ export const resolvers: Resolvers = {
     },
   },
   Mutation: {
-    addItemsToPlaylist: async (_, { input }, { dataSources }) => {
+    AddItemsToPlaylist: async (_, { input }, { dataSources }) => {
       try {
-        const response = await dataSources.SpotifyAPI.addItemsToPlaylist(input)
-        if (response.snaphot_id)
+        const response = await dataSources.spotifyAPI.addItemsToPlaylist(input)
+        if (response.snapshot_id)
         // everything succeeds with the mutation
         {
           return {
@@ -34,19 +34,20 @@ export const resolvers: Resolvers = {
         };
       }
     },
-    Playlist: {
-      tracks: ({ tracks }) => {
-        const { items = [] } = tracks;
-        return items.map(({ track }) => track);
-      }
-    },
-    Track: {
-      durationMs: (parent) => parent.duration_ms
-    },
-    AddItemsToPlaylistPayload: {
-      playlist: ({ playlistId }, _, { dataSources }) => {
-        return dataSources.spotifyAPI.getPlaylist(playlistId);
-      },
+
+  },
+  Playlist: {
+    tracks: ({ tracks }) => {
+      const { items = [] } = tracks;
+      return items.map(({ track }) => track);
+    }
+  },
+  Track: {
+    durationMs: (parent) => parent.duration_ms
+  },
+  AddItemsToPlaylistPayload: {
+    playlist: ({ playlistId }, _, { dataSources }) => {
+      return dataSources.spotifyAPI.getPlaylist(playlistId);
     },
   },
 };
